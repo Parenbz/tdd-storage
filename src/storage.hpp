@@ -63,6 +63,14 @@ public:
         throw std::out_of_range("Key not found");
     }
 
+    void clear() {
+        std::vector<std::optional<Entry>> data_;
+        std::size_t cache_size;
+        std::vector<std::size_t> cache_;
+        std::vector<bool> cache_used_;
+        next_cache_slot_ = 0;
+    }
+
 private:
     std::size_t capacity_;
     std::size_t cache_size_;
