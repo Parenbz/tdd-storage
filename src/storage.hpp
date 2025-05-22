@@ -64,9 +64,8 @@ public:
     }
 
     void clear() {
-        std::vector<std::optional<Entry>> data_;
-        std::vector<std::size_t> cache_;
-        std::vector<bool> cache_used_;
+        data_.clear()
+        cache_used_.clear();
         next_cache_slot_ = 0;
     }
 
