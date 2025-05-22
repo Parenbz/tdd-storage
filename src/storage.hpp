@@ -120,5 +120,7 @@ private:
 
     FRIEND_TEST(StorageCacheTest, LoadFromCacheReturnsTrueIfPresent);
     FRIEND_TEST(StorageCacheTest, LoadFromCacheReturnsFalseIfAbsent);
-    FRIEND_TEST(StorageCacheTest, StoreToCacheAddsEntry);    
+    FRIEND_TEST(StorageCacheTest, StoreToCacheAddsEntry); 
+    FRIEND_TEST(ClearTest, ClearEmptiesStorage);
+    FRIEND_TEST(ClearTest, ClearEmptiesCache);
 };
