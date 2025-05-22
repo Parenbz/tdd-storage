@@ -125,6 +125,7 @@ TEST(StorageTest, ClearDuringLoad) {
     };
 
     std::thread t1(load_fn);
+    sleep(1);
     std::thread t2(clear_fn);
     t1.join();
     t2.join();
