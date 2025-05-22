@@ -157,6 +157,7 @@ TEST_F(ClearTest, ClearEmptiesStorage) {
 
 TEST_F(ClearTest, ClearEmptiesCache) {
     storage.clear();
-    EXPECT_FALSE(storage.load_from_cache(1, "one"));
-    EXPECT_FALSE(storage.load_from_cache(2, "two"));
+    std::string value;
+    EXPECT_FALSE(storage.load_from_cache(1, value));
+    EXPECT_FALSE(storage.load_from_cache(2, value));
 }
