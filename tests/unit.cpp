@@ -173,13 +173,13 @@ class IterateElementsTest : public ::testing::Test {
 };
 
 TEST_F(IterateElementsTest, IterateElementsWorksCorrectly) {
-    EXPECT_NO_THROW(std::pair<int, std::string> it = storage.iterate_elements());
+    std::pair<int, std::string> it = storage.iterate_elements();
     EXPECT_EQ(it.first(), 1);
     EXPECT_EQ(it.second(), "one");
-    EXPECT_NO_THROW(std::pair<int, std::string> it = storage.iterate_elements());
+    std::pair<int, std::string> it = storage.iterate_elements();
     EXPECT_EQ(it.first(), 2);
     EXPECT_EQ(it.second(), "two");
-    EXPECT_NO_THROW(std::pair<int, std::string> it = storage.iterate_elements());
+    std::pair<int, std::string> it = storage.iterate_elements();
     EXPECT_EQ(it.first(), 1);
     EXPECT_EQ(it.second(), "one");
 }
