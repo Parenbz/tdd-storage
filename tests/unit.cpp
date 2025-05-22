@@ -2,6 +2,6 @@
 
 #include "storage.hpp"
 
-TEST(a, b) {
-    EXPECT_EQ(1, 1);
+TEST(StorageTest, CanCreateAndDestroy) {
+    Storage<int, std::string> storage(100, 10);
 }
