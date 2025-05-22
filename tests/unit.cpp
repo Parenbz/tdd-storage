@@ -151,8 +151,8 @@ protected:
 
 TEST_F(ClearTest, ClearEmptiesStorage) {
     storage.clear();
-    EXPECT_THROW(storage.load(1));
-    EXPECT_THROW(storage.load(2));
+    EXPECT_THROW(storage.load(1), std::out_of_range);
+    EXPECT_THROW(storage.load(2), std::out_of_range);
 }
 
 TEST_F(ClearTest, ClearEmptiesCache) {
