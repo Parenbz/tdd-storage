@@ -64,7 +64,7 @@ public:
     }
 
     void clear() {
-        data_.clear()
+        data_.clear();
         cache_used_.clear();
         next_cache_slot_ = 0;
     }
