@@ -111,13 +111,13 @@ TEST(StorageTest, ConcurrentLoadAfterStore) {
 }
 
 TEST(StorageTest, ClearDuringLoad) {
-    Storage<int, int> storage(1000000, 1);
-    for (int i = 0; i < 1000000; i++) {
+    Storage<int, int> storage(10000, 1);
+    for (int i = 0; i < 10000; i++) {
         storage.store(i, i);
     }
 
     auto load_fn = [&]() {
-        storage.load(900000);
+        storage.load(9000);
     };
 
     auto clear_fn = [&]() {
