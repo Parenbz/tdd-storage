@@ -4,6 +4,8 @@
 
 #include "storage.hpp"
 
+using namespace testing;
+
 TEST(StorageTest, CanCreateAndDestroy) {
     Storage<int, std::string> storage(100, 10);
 }
@@ -100,7 +102,7 @@ TEST(StorageTest, ConcurrentLoadAfterStore) {
     t2.join();
 }
 
-class StorageCacheTest : public Test {
+class StorageCacheTest : public ::testing::Test {
 protected:
     Storage<int, std::string> storage{10, 3};
 
