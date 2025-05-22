@@ -74,13 +74,13 @@ public:
             throw std::out_of_range("Empty storage");
         }
 
-        if (iterate_idx_ >= data_.size()) {
-            iterate_idx_ = 1;
-            return std::make_pair(data_[0]->key, data_[0]->value);
+        if (iterate_idx_ < data_.size() && data_[iterate_idx_].has_value()) {
+            iterate_idx_ += 1;
+            return std::make_pair(data_[iterate_idx_-1]->key, data_[iterate_idx_-1]->value);
         }
 
-        iterate_idx_ += 1;
-        return std::make_pair(data_[iterate_idx_-1]->key, data_[iterate_idx_-1]->value);
+        iterate_idx_ = 1;
+        return std::make_pair(data_[0]->key, data_[0]->value);
     }
 
 private:
