@@ -14,6 +14,13 @@ TEST(StorageTest, ThrowsOnZeroCapacity) {
     EXPECT_THROW((Storage<int, int>(10, 0)), std::invalid_argument);
 }
 
+TEST(StorageTest, ThrowOnFullCapacity) {
+    Storage<int, int> storage(2, 1);
+    EXPECT_NO_THROW(storage.store(1, 100));
+    EXPECT_NO_THROW(storage.store(2, 200));
+    EXPECT_THROW(storage.store(3, 300), std::runtime_error);
+}
+
 TEST(StorageTest, ThrowsOnZeroCacheSize) {
     EXPECT_THROW((Storage<int, int>(10, 0)), std::invalid_argument);
 }
@@ -137,6 +144,12 @@ TEST_F(StorageCacheTest, StoreToCacheAddsEntry) {
     std::string value;
     EXPECT_TRUE(storage.load_from_cache(2, value));
     EXPECT_EQ(value, "two");
+}
+
+TEST_F(StorageCacheTest, FindIndexReturnsNulloptIfKeyNotFound) {
+    Storage<int, int> storage(2, 1);
+    auto result = storage.find_index(42);
+    EXPECT_EQ(result, std::nullopt);
 }
 
 class ClearTest : public ::testing::Test {
