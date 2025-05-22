@@ -99,3 +99,40 @@ TEST(StorageTest, ConcurrentLoadAfterStore) {
     t1.join();
     t2.join();
 }
+
+class StorageCacheTest : public Test {
+protected:
+    Storage<int, std::string> storage{10, 3};
+
+    void SetUp() override {
+        storage.store(1, "one");
+        storage.store(2, "two");
+    }
+};
+
+TEST_F(StorageCacheTest, LoadFromCacheReturnsFalseIfAbsent) {
+    std::string value;
+    EXPECT_FALSE(storage.load_from_cache(999, value));
+}
+
+TEST_F(StorageCacheTest, LoadFromCacheReturnsTrueIfPresent) {
+    std::string value;
+
+    auto idx_opt = storage.find_index(1);
+    ASSERT_TRUE(idx_opt.has_value());
+    storage.store_to_cache(idx_opt.value());
+
+    EXPECT_TRUE(storage.load_from_cache(1, value));
+    EXPECT_EQ(value, "one");
+}
+
+TEST_F(StorageCacheTest, StoreToCacheAddsEntry) {
+    auto idx_opt = storage.find_index(2);
+    ASSERT_TRUE(idx_opt.has_value());
+
+    storage.store_to_cache(idx_opt.value());
+
+    std::string value;
+    EXPECT_TRUE(storage.load_from_cache(2, value));
+    EXPECT_EQ(value, "two");
+}
