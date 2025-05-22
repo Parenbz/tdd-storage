@@ -161,3 +161,23 @@ TEST_F(ClearTest, ClearEmptiesCache) {
     EXPECT_FALSE(storage.load_from_cache(1, value));
     EXPECT_FALSE(storage.load_from_cache(2, value));
 }
+
+class IterateElementsTest : public ::testing::Test {
+    protected:
+        Storage<int, std::string> storage{5, 2};
+    
+        void SetUp() override {
+            storage.store(1, "one");
+            storage.store(2, "two");
+        }
+};
+
+TEST_F(IterateElementsTest, IterateElementsWorksCorrectly) {
+    EXPECT_NO_THROW(std::pair<int, std::string> it = storage.iterate_elements());
+    EXPECT_EQ(it.first(), 1);
+    EXPECT_EQ(it.second(), "one");
+    EXPECT_NO_THROW(std::pair<int, std::string> it = storage.iterate_elements());
+    EXPECT_EQ(it.first(), 2);
+    EXPECT_EQ(it.second(), "two");
+    EXPECT_THROW(storage.iterate_elements(), std::out_of_range);
+}
