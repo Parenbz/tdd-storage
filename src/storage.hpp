@@ -65,7 +65,7 @@ public:
 
     void clear() {
         std::vector<std::optional<Entry>> data_;
-        std::size_t cache_size;
+        std::size_t cache_size_;
         std::vector<std::size_t> cache_;
         std::vector<bool> cache_used_;
         next_cache_slot_ = 0;
