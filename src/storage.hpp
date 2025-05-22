@@ -51,7 +51,7 @@ public:
             return value;
         }
 
-        //std::shared_lock lock(mutex_);
+        std::shared_lock lock(mutex_);
         for (std::size_t i = 0; i < data_.size(); ++i) {
             if (data_[i].has_value() && data_[i]->key == key) {
                 value = data_[i]->value;
