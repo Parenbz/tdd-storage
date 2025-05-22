@@ -138,3 +138,25 @@ TEST_F(StorageCacheTest, StoreToCacheAddsEntry) {
     EXPECT_TRUE(storage.load_from_cache(2, value));
     EXPECT_EQ(value, "two");
 }
+
+class ClearTest : public ::testing::Test {
+protected:
+    Storage<int, std::string> storage{5, 2};
+
+    void SetUp() override {
+        storage.store(1, "one");
+        storage.store(2, "two");
+    }
+};
+
+TEST_F(ClearTest, ClearEmptiesStorage) {
+    storage.clear();
+    EXPECT_THROW(storage.load(1));
+    EXPECT_THROW(storage.load(2));
+}
+
+TEST_F(ClearTest, ClearEmptiesCache) {
+    storage.clear();
+    EXPECT_FALSE(storage.load_from_cache(1, "one"));
+    EXPECT_FALSE(storage.load_from_cache(2, "two"));
+}
