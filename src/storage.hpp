@@ -69,12 +69,27 @@ public:
         next_cache_slot_ = 0;
     }
 
+    std::pair<KeyT, ValueT> iterate_elements() {
+        if (!data_.size()) {
+            throw std::out_of_range("Empty storage");
+        }
+
+        if (iterate_idx_ >= data_.size()) {
+            iterate_idx_ = 1;
+            return std::make_pair(data_[0].key, data_[0].value);
+        }
+
+        iterate_idx_ += 1;
+        return std::make_pair(data[iterate_idx_-1].key, data[iterate_idx_-1].value);
+    }
+
 private:
     std::size_t capacity_;
     std::size_t cache_size_;
     mutable std::shared_mutex mutex_;
     mutable std::mutex cache_mutex_;
     mutable std::size_t next_cache_slot_ = 0;
+    std::size_t iterate_idx_ = 0;
 
     struct Entry {
         KeyT key;
