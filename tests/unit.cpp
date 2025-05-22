@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <thread>
 #include <vector>
+#include <unistd.h>
 
 #include "storage.hpp"
 
@@ -11,7 +12,7 @@ TEST(StorageTest, CanCreateAndDestroy) {
 }
 
 TEST(StorageTest, ThrowsOnZeroCapacity) {
-    EXPECT_THROW((Storage<int, int>(10, 0)), std::invalid_argument);
+    EXPECT_THROW((Storage<int, int>(0, 0)), std::invalid_argument);
 }
 
 TEST(StorageTest, ThrowOnFullCapacity) {
@@ -109,6 +110,26 @@ TEST(StorageTest, ConcurrentLoadAfterStore) {
     t2.join();
 }
 
+TEST(StorageTest, ClearDuringLoad) {
+    Storage<int, int> storage(1000000, 1);
+    for (int i = 0; i < 1000000; i++) {
+        storage.store(i, i);
+    }
+
+    auto load_fn = [&]() {
+        storage.load(900000);
+    };
+
+    auto clear_fn = [&]() {
+        storage.clear();
+    };
+
+    std::thread t1(load_fn);
+    std::thread t2(clear_fn);
+    t1.join();
+    t2.join();
+}
+
 class StorageCacheTest : public ::testing::Test {
 protected:
     Storage<int, std::string> storage{10, 3};
@@ -173,6 +194,20 @@ TEST_F(ClearTest, ClearEmptiesCache) {
     std::string value;
     EXPECT_FALSE(storage.load_from_cache(1, value));
     EXPECT_FALSE(storage.load_from_cache(2, value));
+}
+
+TEST_F(ClearTest, ConcurrentClear) {
+    auto clear_fn = [&]() {
+        storage.clear();
+    };
+
+    std::thread t1(clear_fn);
+    std::thread t2(clear_fn);
+    t1.join();
+    t2.join();
+
+    EXPECT_THROW(storage.load(1), std::out_of_range);
+    EXPECT_THROW(storage.load(2), std::out_of_range);
 }
 
 class IterateElementsTest : public ::testing::Test {

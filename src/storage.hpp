@@ -51,7 +51,7 @@ public:
             return value;
         }
 
-        std::shared_lock lock(mutex_);
+        //std::shared_lock lock(mutex_);
         for (std::size_t i = 0; i < data_.size(); ++i) {
             if (data_[i].has_value() && data_[i]->key == key) {
                 value = data_[i]->value;
@@ -64,6 +64,7 @@ public:
     }
 
     void clear() {
+        std::unique_lock lock(mutex_);
         data_.clear();
         cache_used_.clear();
         next_cache_slot_ = 0;
@@ -73,6 +74,8 @@ public:
         if (!data_.size()) {
             throw std::out_of_range("Empty storage");
         }
+
+        std::shared_lock lock(mutex_);
 
         if (iterate_idx_ < data_.size() && data_[iterate_idx_].has_value()) {
             iterate_idx_ += 1;
