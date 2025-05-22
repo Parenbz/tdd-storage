@@ -174,14 +174,14 @@ class IterateElementsTest : public ::testing::Test {
 
 TEST_F(IterateElementsTest, IterateElementsWorksCorrectly) {
     std::pair<int, std::string> it = storage.iterate_elements();
-    EXPECT_EQ(it.first(), 1);
-    EXPECT_EQ(it.second(), "one");
+    EXPECT_EQ(it.first, 1);
+    EXPECT_EQ(it.second, "one");
     std::pair<int, std::string> it = storage.iterate_elements();
-    EXPECT_EQ(it.first(), 2);
-    EXPECT_EQ(it.second(), "two");
+    EXPECT_EQ(it.first, 2);
+    EXPECT_EQ(it.second, "two");
     std::pair<int, std::string> it = storage.iterate_elements();
-    EXPECT_EQ(it.first(), 1);
-    EXPECT_EQ(it.second(), "one");
+    EXPECT_EQ(it.first, 1);
+    EXPECT_EQ(it.second, "one");
 }
 
 TEST_F(IterateElementsTest, IterateElementsThrowsOnEmptyStorage) {

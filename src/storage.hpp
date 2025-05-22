@@ -80,7 +80,7 @@ public:
         }
 
         iterate_idx_ += 1;
-        return std::make_pair(data[iterate_idx_-1].key, data[iterate_idx_-1].value);
+        return std::make_pair(data_[iterate_idx_-1].key, data_[iterate_idx_-1].value);
     }
 
 private:
