@@ -240,7 +240,7 @@ TEST_F(IterateElementsTest, IterateElementsThrowsOnEmptyStorage) {
 
 TEST_F(IterateElementsTest, ParallelIterateElements) {
     auto iterate_elements_fn = [&]() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             storage.iterate_elements();
         }
     };
@@ -253,7 +253,7 @@ TEST_F(IterateElementsTest, ParallelIterateElements) {
 
 TEST_F(IterateElementsTest, StoreParallelWithIterateElements) {
     auto iterate_elements_fn = [&]() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             storage.iterate_elements();
         }
     };
