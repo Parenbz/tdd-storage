@@ -71,11 +71,10 @@ public:
     }
 
     std::pair<KeyT, ValueT> iterate_elements() {
+        std::unique_lock lock(mutex_);
         if (!data_.size()) {
             throw std::out_of_range("Empty storage");
         }
-
-        std::shared_lock lock(mutex_);
 
         if (iterate_idx_ < data_.size() && data_[iterate_idx_].has_value()) {
             iterate_idx_ += 1;
