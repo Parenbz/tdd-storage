@@ -237,3 +237,34 @@ TEST_F(IterateElementsTest, IterateElementsThrowsOnEmptyStorage) {
     storage.clear();
     EXPECT_THROW(storage.iterate_elements(), std::out_of_range);
 }
+
+TEST_F(IterateElementsTest, ParallelIterateElements) {
+    auto iterate_elements_fn = [&]() {
+        for (int i = 0; i < 1000; i++) {
+            storage.iterate_elements();
+        }
+    };
+
+    std::thread t1(iterate_elements_fn);
+    std::thread t2(iterate_elements_fn);
+    t1.join();
+    t2.join();
+}
+
+TEST_F(IterateElementsTest, StoreParallelWithIterateElements) {
+    auto iterate_elements_fn = [&]() {
+        for (int i = 0; i < 10000; i++) {
+            storage.iterate_elements();
+        }
+    };
+
+    auto store_fn = [&]() {
+        storage.store(3, "three");
+    };
+
+    std::thread t1(iterate_elements_fn);
+    sleep(1);
+    std::thread t2(store_fn);
+    t1.join();
+    t2.join();
+}
